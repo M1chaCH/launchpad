@@ -1,0 +1,41 @@
+---
+import "../../styles/global.css";
+import {getLangFromUrl, useTranslations} from "../../i18n/utils";
+import {languages} from "../../i18n/ui";
+import Welcome from "../../components/Welcome.astro";
+import Footer from "../../components/Footer.astro";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+export async function getStaticPaths() {
+  return [
+    {params: {lang: "en"}},
+    {params: {lang: "de"}},
+  ];
+}
+---
+
+<html lang={lang}>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="generator" content={Astro.generator}/>
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+  <title>{t("welcome.title")}</title>
+  <meta name="description" content={t("welcome.description")}>
+</head>
+<body>
+<main>
+  <Welcome/>
+</main>
+<Footer/>
+</body>
+</html>

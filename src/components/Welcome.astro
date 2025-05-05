@@ -1,0 +1,102 @@
+---
+import {getLangFromUrl, initTranslations, useTranslations} from "../i18n/utils";
+
+const t = initTranslations(Astro.url);
+---
+
+<section>
+  <div class="video-container">
+    <video autoplay muted loop poster="/public/launchpad-welcome-poster.jpg">
+      <source src="/public/launchpad-welcome.mp4" type="video/mp4"/>
+    </video>
+  </div>
+  <div class="content">
+    <div class="title-background">
+      <h1>{t("welcome.title")}</h1>
+    </div>
+    <p>{t("welcome.description")}</p>
+    <h2>{t("welcome.welcome")}</h2>
+  </div>
+</section>
+
+<style>
+  section {
+    position: relative;
+  }
+
+  .video-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    overflow: hidden;
+
+    animation: initial-video-zoom-out 2s linear forwards;
+  }
+
+  @keyframes initial-video-zoom-out {
+    0% {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+    100% {
+      top: 2vw;
+      right: 2vw;
+      bottom: 2vw;
+      left: 2vw;
+    }
+  }
+
+  video {
+    max-width: 2000px;
+    width: auto;
+    height: 120%;
+    margin: 0 auto;
+  }
+
+  .content {
+    display: flex;
+    min-height: 100svh;
+    flex-direction: column-reverse;
+  }
+
+  h1 {
+    font-size: 8rem;
+
+    width: 100%;
+    margin: 0 0 8vh 0;
+    padding-right: 3vw;
+    //padding-left: 3vw;
+    text-align: right;
+
+    background: rgba(255, 255, 255, 1);
+    color: black;
+    backdrop-filter: blur(10px);
+    mix-blend-mode: screen;
+    position: relative;
+
+    box-sizing: border-box;
+  }
+
+  h2 {
+    font-size: 4rem;
+    font-weight: normal;
+    color: black;
+    align-self: flex-end;
+  }
+
+  p {
+    font-size: 1.5rem;
+    color: white;
+    font-weight: normal;
+    text-align: justify;
+    max-width: min(75vw, 400px);
+    align-self: flex-end;
+
+    padding: 2vw;
+  }
+</style>
