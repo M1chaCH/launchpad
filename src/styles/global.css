@@ -1,6 +1,8 @@
 
 html {
   font-family: 'Funnel Sans', sans-serif;
+  --video-frame-size: max(10px, 2vw);
+  --text-padding: max(20px, 3vw);
 }
 
 body {

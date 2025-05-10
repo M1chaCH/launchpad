@@ -4,17 +4,15 @@ import {getLangFromUrl, initTranslations, useTranslations} from "../i18n/utils";
 const t = initTranslations(Astro.url);
 ---
 
-<section>
+<section id="welcome">
   <div class="video-container">
-    <video autoplay muted loop poster="/public/launchpad-welcome-poster.jpg">
+    <video autoplay muted loop poster="/public/launchpad-welcome-poster.webp">
       <source src="/public/launchpad-welcome.mp4" type="video/mp4"/>
     </video>
   </div>
-  <div class="content-container">
-    <div class="content">
-      <h1>{t("welcome.title")}</h1>
-      <p>{t("welcome.description")}</p>
-    </div>
+  <div class="content">
+    <p>{t("welcome.description")}</p>
+    <h1>{t("welcome.title")}</h1>
   </div>
 </section>
 
@@ -32,7 +30,11 @@ const t = initTranslations(Astro.url);
     z-index: -1;
     overflow: hidden;
 
-    animation: initial-video-zoom-out 2s linear forwards;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    animation: initial-video-zoom-out 2s ease-in-out forwards;
   }
 
   @keyframes initial-video-zoom-out {
@@ -43,60 +45,78 @@ const t = initTranslations(Astro.url);
       left: 0;
     }
     100% {
-      top: 2vw;
-      right: 2vw;
-      bottom: 2vw;
-      left: 2vw;
+      top: var(--video-frame-size);
+      right: var(--video-frame-size);
+      bottom: var(--video-frame-size);
+      left: var(--video-frame-size);
     }
   }
 
   video {
-    max-width: 2000px;
     width: auto;
     height: 120%;
-    margin: 0 auto;
+    object-fit: cover;
+    object-position: center;
   }
 
-  .content-container {
-    display: inline-flex;
+  .content {
+    align-self: flex-start;
+    box-sizing: border-box;
+    display: flex;
     min-height: 100vh;
     flex-direction: column-reverse;
   }
 
-  .content {
-    border: red 2px solid;
-    align-self: flex-start;
-    box-sizing: border-box;
-    display: flex;
-    flex-flow: column;
-    align-items: flex-start;
-  }
-
   h1 {
-    font-size: 8rem;
-    padding: 2vw;
+    font-size: clamp(4rem, 10vw, 8rem);
+    padding: var(--text-padding);
 
     background: rgba(255, 255, 255, 1);
     color: black;
+
     backdrop-filter: blur(10px);
     mix-blend-mode: screen;
-    box-sizing: border-box;
 
     width: 100%;
-    max-width: fit-content;
-    word-wrap: break-word;
+    box-sizing: border-box;
+
+    opacity: 0;
+    animation: fly-in 700ms 600ms ease-in-out forwards;
   }
 
   p {
-    font-size: 1.5rem;
-    padding: 2vw;
-    color: black;
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
     font-weight: normal;
     text-align: justify;
-    max-width: 100%;
-    margin: 0;
-    width: fit-content;
+    
+    color: black;
     background-color: white;
-    display: inline-block;
+
+    padding: var(--text-padding);
+    margin: 0;
+    box-sizing: border-box;
+
+    max-width: 100%;
+    width: 100%;
+
+    opacity: 0;
+    animation: fly-in 700ms 720ms ease-in-out forwards;
+  }
+
+  @keyframes fly-in {
+    0% {
+      opacity: 0;
+      transform: translateY(200px);
+    }
+    30% {
+      opacity: 0.0;
+    }
+    65% {
+      opacity: 0.3;
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 </style>
