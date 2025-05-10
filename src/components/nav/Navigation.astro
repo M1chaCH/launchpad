@@ -1,0 +1,31 @@
+---
+import LargeNavigation from "./LargeNavigation.astro";
+import MobileNavigation from "./MobileNavigation.astro";
+---
+
+<div class="desktop-navigation">
+  <LargeNavigation/>
+</div>
+<div class="mobile-navigation">
+  <MobileNavigation/>
+</div>
+
+<style>
+  .desktop-navigation {
+    display: contents;
+  }
+
+  .mobile-navigation {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    .desktop-navigation {
+      display: none;
+    }
+
+    .mobile-navigation {
+      display: contents;
+    }
+  }
+</style>

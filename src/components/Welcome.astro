@@ -69,7 +69,7 @@ const t = initTranslations(Astro.url);
 
   h1 {
     font-size: clamp(4rem, 10vw, 8rem);
-    padding: var(--text-padding);
+    padding: var(--general-padding);
 
     background: rgba(255, 255, 255, 1);
     color: black;
@@ -85,14 +85,14 @@ const t = initTranslations(Astro.url);
   }
 
   p {
-    font-size: clamp(1.1rem, 4vw, 1.5rem);
+    font-size: var(--general-font-size);
     font-weight: normal;
     text-align: justify;
-    
+
     color: black;
     background-color: white;
 
-    padding: var(--text-padding);
+    padding: var(--general-padding);
     margin: 0;
     box-sizing: border-box;
 

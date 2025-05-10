@@ -1,0 +1,152 @@
+---
+import {initTranslations} from "../../i18n/utils";
+const t = initTranslations(Astro.url);
+---
+
+<nav>
+  <a href="#welcome" class="logo">
+    <span>L</span>
+  </a>
+  <button id="burger-button">
+    <svg id="burger-icon" width="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
+      <path id="burger-icon-top" d="M0 9h30v2H0z"/>
+      <line id="burger-icon-mid" x1="0" y1="15" x2="30" y2="15" stroke="black" stroke-width="2" vector-effect="non-scaling-stroke"/>
+      <path id="burger-icon-bot" d="M0 19h30v2H0z"/>
+    </svg>
+  </button>
+</nav>
+
+<div id="menu-container">
+  <a href="#bible-app">{t("nav.bible.app")}</a>
+  <a href="#bible-project">{t("nav.bible.project")}</a>
+  <a href="#music">{t("nav.music")}</a>
+  <a href="#series">{t("nav.series")}</a>
+  <a href="#study">{t("nav.study")}</a>
+  <a href="#church">{t("nav.church")}</a>
+</div>
+
+<style>
+  .logo {
+    background-color: #5F6C51;
+    border-radius: 50%;
+
+    height: 80%;
+    width: auto;
+    aspect-ratio: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logo span {
+    font-weight: bold;
+    font-size: var(--general-font-size);
+  }
+
+  /* use ScrollTrigger to make less high when sticking */
+  nav {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+    height: 60px;
+    padding: var(--general-padding);
+    box-sizing: border-box;
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+  }
+
+  #burger-button {
+    all: unset;
+    cursor: pointer;
+    padding: 1rem;
+  }
+
+  #burger-icon {
+    -webkit-perspective: 800px; /*todo, even required?*/
+  }
+
+  #menu-container {
+    display: flex;
+    flex-flow: column;
+
+    position: fixed;
+    top: 60px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+
+    pointer-events: none;
+  }
+
+  #menu-container a {
+    flex-grow: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+  }
+
+  a {
+    color: black;
+    font-weight: bold;
+    font-size: var(--general-font-size);
+
+    text-decoration: none;
+  }
+
+  /* TODO GSAP text effect, rainbow (MAYBE, don't want to get to much RGB) through every letter and change size of every letter, like a wave */
+  a:active, a:hover, a:focus {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  import {gsap} from "gsap";
+  import {isLarge} from "../../scripts/global";
+
+  // TODO find solution for the case when burger is hit to early and the covered.
+  if (!isLarge()) {
+    const anchors = document.querySelectorAll("#menu-container a");
+    const burgerButton = document.getElementById("burger-button");
+
+    const burgerTl = gsap.timeline({
+      paused: true,
+    }).to("#burger-icon-top", {y: "-9px", transformOrigin: "50% 50%", duration: 0.2}, 0)
+      .to("#burger-icon-bot", {y: "9px", transformOrigin: "50% 50%", duration: 0.2}, "<")
+      .to("#burger-icon-mid", {scale: 0.1, transformOrigin: "50% 50%", duration: 0.2}, "<")
+      .to("#burger-icon-top", {y: "5", duration: 0.2}, "+=0")
+      .to("#burger-icon-bot", {y: "-5", duration: 0.2}, "<")
+      .to("#burger-icon-top", {rotationZ: 45, transformOrigin: "50% 50%", duration: 0.2}, "<")
+      .to("#burger-icon-bot", {rotationZ: -45, transformOrigin: "50% 50%", duration: 0.2}, "<");
+
+    const menuTl = gsap.timeline({
+      paused: true,
+    }).from(anchors, {
+      x: "-100%",
+      duration: 0.4,
+      stagger: 0.1,
+      ease: "power1.inOut",
+    }, 0)
+      .to("#menu-container", {pointerEvents: "all", duration: 0.2}, "<");
+
+    burgerButton.addEventListener("click", () => {
+      burgerTl.reversed() || burgerTl.paused() ? burgerTl.play() : burgerTl.reverse();
+      menuTl.reversed() || menuTl.paused() ? menuTl.play() : menuTl.reverse();
+    });
+
+    anchors.forEach(anchor => anchor.addEventListener("click", () => {
+      burgerTl.reverse();
+      menuTl.reverse();
+    }));
+  }
+</script>

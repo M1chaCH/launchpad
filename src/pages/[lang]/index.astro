@@ -3,6 +3,7 @@ import "../../styles/global.css";
 import {getLangFromUrl, useTranslations} from "../../i18n/utils";
 import Welcome from "../../components/Welcome.astro";
 import Footer from "../../components/Footer.astro";
+import Navigation from "../../components/nav/Navigation.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -17,6 +18,8 @@ export async function getStaticPaths() {
 
 <html lang={lang}>
 <head>
+  <title>{t("welcome.title")}</title>
+  <meta name="description" content={t("welcome.description")}>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -28,12 +31,36 @@ export async function getStaticPaths() {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
 
-  <title>{t("welcome.title")}</title>
-  <meta name="description" content={t("welcome.description")}>
+  <script>
+    import {gsap} from "gsap";
+    import ScrollTrigger from "gsap/ScrollTrigger";
+    import GSDevTools from "gsap/GSDevTools";
+    import Observer from "gsap/Observer";
+    import SplitText from "gsap/SplitText";
+    import TextPlugin from "gsap/TextPlugin";
+    import {getClientGlobal} from "../../scripts/global";
+
+    gsap.registerPlugin(GSDevTools, Observer, ScrollTrigger, SplitText, TextPlugin);
+
+    const originallyDesktop = window.innerWidth > getClientGlobal("navBreakpoint");
+    window.addEventListener("resize", () => {
+      const isDesktop = window.innerWidth > getClientGlobal("navBreakpoint");
+      if (originallyDesktop !== isDesktop) {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "instant",
+        });
+        window.location.reload();
+      }
+    });
+  </script>
 </head>
 <body>
 <main>
   <Welcome/>
+  <Navigation/>
+  <div style="height: 200vh;"></div>
 </main>
 <Footer/>
 </body>
