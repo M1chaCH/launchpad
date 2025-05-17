@@ -6,7 +6,18 @@ const t = initTranslations(Astro.url);
 
 <section id="welcome">
   <div class="video-container">
-    <video autoplay muted loop poster="/public/launchpad-welcome-poster.webp">
+    <video
+            id="background-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            webkit-playsinline
+            preload="auto"
+            disablePictureInPicture
+            disableRemotePlayback
+            controlsList="nodownload nofullscreen noremoteplayback"
+            poster="/public/launchpad-welcome-poster.webp">
       <source src="/public/launchpad-welcome.mp4" type="video/mp4"/>
     </video>
   </div>

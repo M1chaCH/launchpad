@@ -84,6 +84,8 @@ const t = initTranslations(Astro.url);
     z-index: 1000;
 
     pointer-events: none;
+
+    transform: translateX(-100%);
   }
 
   #menu-container a {
@@ -131,8 +133,8 @@ const t = initTranslations(Astro.url);
 
     const menuTl = gsap.timeline({
       paused: true,
-    }).from(anchors, {
-      x: "-100%",
+    }).to(anchors, {
+      x: "100%",
       duration: 0.4,
       stagger: 0.1,
       ease: "power1.inOut",
@@ -140,8 +142,24 @@ const t = initTranslations(Astro.url);
       .to("#menu-container", {pointerEvents: "all", duration: 0.2}, "<");
 
     burgerButton.addEventListener("click", () => {
-      burgerTl.reversed() || burgerTl.paused() ? burgerTl.play() : burgerTl.reverse();
-      menuTl.reversed() || menuTl.paused() ? menuTl.play() : menuTl.reverse();
+      const playOpen = burgerTl.reversed() || burgerTl.paused();
+
+      if (playOpen) {
+        burgerTl.play();
+        menuTl.play();
+
+        // button not yet sticky on top, need to scroll to button, otherwise you can't close the menu
+        if (burgerButton.getBoundingClientRect().y > 0) {
+          window.scrollTo({
+            top: window.innerHeight,
+            left: 0,
+            behavior: "smooth",
+          });
+        }
+      } else {
+        burgerTl.reverse();
+        menuTl.reverse();
+      }
     });
 
     anchors.forEach(anchor => anchor.addEventListener("click", () => {

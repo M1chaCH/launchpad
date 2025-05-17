@@ -4,6 +4,7 @@ import {getLangFromUrl, useTranslations} from "../../i18n/utils";
 import Welcome from "../../components/Welcome.astro";
 import Footer from "../../components/Footer.astro";
 import Navigation from "../../components/nav/Navigation.astro";
+import YouVersionBible from "../../components/YouVersionBible.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -60,6 +61,7 @@ export async function getStaticPaths() {
 <main>
   <Welcome/>
   <Navigation/>
+  <YouVersionBible/>
   <div style="height: 200vh;"></div>
 </main>
 <Footer/>
