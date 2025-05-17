@@ -4,7 +4,7 @@ import {getLangFromUrl, useTranslations} from "../../i18n/utils";
 import Welcome from "../../components/Welcome.astro";
 import Footer from "../../components/Footer.astro";
 import Navigation from "../../components/nav/Navigation.astro";
-import YouVersionBible from "../../components/YouVersionBible.astro";
+import YouVersionBible from "../../components/youversion/YouVersionBible.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -34,35 +34,36 @@ export async function getStaticPaths() {
 
   <script>
     import {gsap} from "gsap";
-    import ScrollTrigger from "gsap/ScrollTrigger";
-    import GSDevTools from "gsap/GSDevTools";
-    import Observer from "gsap/Observer";
-    import SplitText from "gsap/SplitText";
-    import TextPlugin from "gsap/TextPlugin";
-    import {getClientGlobal} from "../../scripts/global";
+      import ScrollTrigger from "gsap/ScrollTrigger";
+      import GSDevTools from "gsap/GSDevTools";
+      import Observer from "gsap/Observer";
+      import SplitText from "gsap/SplitText";
+      import TextPlugin from "gsap/TextPlugin";
+      import {getClientGlobal} from "../../scripts/global";
 
-    gsap.registerPlugin(GSDevTools, Observer, ScrollTrigger, SplitText, TextPlugin);
+      gsap.registerPlugin(GSDevTools, Observer, ScrollTrigger, SplitText, TextPlugin);
 
-    const originallyDesktop = window.innerWidth > getClientGlobal("navBreakpoint");
-    window.addEventListener("resize", () => {
-      const isDesktop = window.innerWidth > getClientGlobal("navBreakpoint");
-      if (originallyDesktop !== isDesktop) {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: "instant",
+      const originallyDesktop = window.innerWidth > getClientGlobal("navBreakpoint");
+      window.addEventListener("resize", () => {
+        const isDesktop = window.innerWidth > getClientGlobal("navBreakpoint");
+        if (originallyDesktop !== isDesktop) {
+          window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "instant",
+            });
+          window.location.reload();
+          }
         });
-        window.location.reload();
-      }
-    });
   </script>
 </head>
 <body>
 <main>
   <Welcome/>
   <Navigation/>
-  <YouVersionBible/>
-  <div style="height: 200vh;"></div>
+  <div class="content">
+    <YouVersionBible/>
+  </div>
 </main>
 <Footer/>
 </body>
