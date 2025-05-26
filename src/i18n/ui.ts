@@ -7,6 +7,7 @@ export const defaultLanguage = "en";
 
 export const ui = {
   en: {
+    "loading": "Loading",
     "welcome.title": "Your Launchpad",
     "welcome.welcome": "Welcome",
     "welcome.description": "Launchpad is a place where you can find all sorts of useful resources that help you to grow in your faith. " +
@@ -25,10 +26,11 @@ export const ui = {
     "bible.app.bullets.notes": "Create notes, favorites, or bookmarks",
     "bible.app.bullets.plans": "Be guided by a reading plan",
     "bible.app.bullets.audio": "Have the Bible read to you",
-    "bible.app.dailyverse": "Vers of the Day",
+    "bible.app.dailyverse": "Verse of the Day",
     "bible.app.dailyverse.failed": "Unfortunately the verse of the day could not be loaded today...",
   },
   de: {
+    "loading": "Lädt",
     "welcome.title": "Dein Launchpad",
     "welcome.welcome": "Willkommen",
     "welcome.description": "Auf Launchpad findest du die unterschiedlichsten Tools die dir helfen deinen Glauben zu vertiefen. " +

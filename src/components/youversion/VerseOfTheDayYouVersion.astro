@@ -1,0 +1,24 @@
+---
+import {useTranslations} from "../../i18n/utils";
+import {getVerseOfTheDay} from "../../scripts/verse-of-the-day";
+import VerseOfTheDay from "./VerseOfTheDay.astro";
+
+const {language} = Astro.props;
+const t = useTranslations(language);
+
+let output = await getVerseOfTheDay(language);
+
+if (output.failed) {
+  output.passage = t("bible.app.dailyverse.failed");
+  output.citation = "-";
+  output.imageUrl = "/patience.webp";
+}
+
+await new Promise<void>(r => setTimeout(() => r(), 10000)) // TODO remove
+---
+
+<VerseOfTheDay imageUrl={output.imageUrl} 
+               passage={output.passage} 
+               citation={output.citation} 
+               version={output.version} 
+               language={language} />

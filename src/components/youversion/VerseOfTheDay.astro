@@ -1,23 +1,50 @@
 ---
-import {getLangFromUrl, initTranslations, useTranslations} from "../../i18n/utils";
-import {getVerseOfTheDay, VerseOfTheDayLanguage} from "../../scripts/verse-of-the-day";
+import { useTranslations } from "../../i18n/utils";
 
-const {language} = Astro.props;
+const {
+    imageUrl,
+    passage,
+    citation,
+    version,
+    language,
+    loading,
+} = Astro.props;
+
 const t = useTranslations(language);
-
-let output = await getVerseOfTheDay(language);
-
-if (output.failed) {
-  output.passage = t("bible.app.dailyverse.failed");
-  output.citation = "-";
-  output.imageUrl = "/patience.webp";
-}
 ---
 
-<!--TODO needs CSS-->
-<div>
-  <img src={output.imageUrl} alt="Verse Image…" width="512px" height="512px"/>
+<div class="container">
+  <img src={imageUrl} alt="Verse Image…"/>
+  <h2>{t("bible.app.dailyverse")} <span class="loading">{loading ? t("loading") : ""}</span></h2>
+  <p class="passage">{passage}</p>
+  <p class="citation">{citation} {version}</p>
 </div>
-<h2>{t("bible.app.dailyverse")}</h2>
-<p>{output.passage}</p>
-<p>{output.citation} {output.version}</p>
+
+<style>
+  .container {
+    display: flex; 
+    flex-flow: column;
+    justify-content: center;
+    gap: 2rem;
+
+    container: verse-of-the-day / inline-size;
+  }
+
+  img {
+    align-self: center;
+    width: clamp(200px, 80cqw, 420px);
+    height: clamp(200px, 80cqw, 420px);
+    max-width: 60vw;
+    max-height: 60vw;
+    margin-bottom: 2rem;
+  }
+
+  .passage {
+    text-align: justify;
+  }
+
+  .citation {
+    font-weight: bold;
+  }
+</style>
+

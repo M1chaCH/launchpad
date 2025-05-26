@@ -2,17 +2,18 @@ import axios from "axios";
 import {type CheerioAPI, load} from "cheerio";
 import moment from "moment";
 
-export interface VerseOfTheDay {
+export interface VerseOfTheDayDto {
   failed?: boolean,
   passage: string,
   citation: string,
   version: string,
   imageUrl: string,
+  copyrightHtml: string,
 }
 
 export type VerseOfTheDayLanguage = "en" | "de";
 
-export async function getVerseOfTheDay(language: VerseOfTheDayLanguage): Promise<VerseOfTheDay> {
+export async function getVerseOfTheDay(language: VerseOfTheDayLanguage): Promise<VerseOfTheDayDto> {
   try {
     const cachedVerseOfTheDay = getVerseOfTheDayFromCache(language);
     if (cachedVerseOfTheDay) {
@@ -24,19 +25,22 @@ export async function getVerseOfTheDay(language: VerseOfTheDayLanguage): Promise
     const pageData = load(pageHtml);
     const nextJsData = parseNextJsData(pageData);
 
-    const verse: string = nextJsData.props.pageProps.verses[0].content.replace(/\n/g, " ");
-    const reference: string = nextJsData.props.pageProps.verses[0].reference.human;
-    const version: string = nextJsData.props.pageProps.versionData.abbreviation;
+    const verses: string[] = nextJsData.props.pageProps.verses.map(v => v.content.replace(/\n/g, " "));
+    const verseOfTheDay: string = verses.join(" ");
+    const citation: string = nextJsData.props.pageProps.referenceTitle.title;
+    const version: string = nextJsData.props.pageProps.versionData.local_abbreviation;
+    const copyrightHtml: string = nextJsData.props.pageProps.versionData.copyright_short.html;
 
     const imageAnchor = pageData("a.block").first();
     const imgSrc = pageData(imageAnchor).find("img").attr()?.src;
     const image = `https://www.bible.com${imgSrc}`;
 
-    const result: VerseOfTheDay = {
-      passage: verse,
-      citation: reference,
-      version: version,
+    const result: VerseOfTheDayDto = {
+      passage: verseOfTheDay,
+      citation,
+      version,
       imageUrl: image,
+      copyrightHtml
     };
 
     storeVerseOfTheDayInCache(language, result);
@@ -50,6 +54,7 @@ export async function getVerseOfTheDay(language: VerseOfTheDayLanguage): Promise
       citation: "",
       version: "",
       imageUrl: "",
+      copyrightHtml: "",
     };
   }
 }
@@ -74,10 +79,10 @@ function parseNextJsData(pageData: CheerioAPI) {
   return JSON.parse(nextJsScript.html() ?? "");
 }
 
-const verseOfTheDayCache = new Map<VerseOfTheDayLanguage, VerseOfTheDay>();
+const verseOfTheDayCache = new Map<VerseOfTheDayLanguage, VerseOfTheDayDto>();
 const lastUpdatedCache = new Map<VerseOfTheDayLanguage, string>;
 
-function getVerseOfTheDayFromCache(language: VerseOfTheDayLanguage): VerseOfTheDay | null {
+function getVerseOfTheDayFromCache(language: VerseOfTheDayLanguage): VerseOfTheDayDto | null {
   const lastUpdated = lastUpdatedCache.get(language);
   const expectedLastUpdated = getLastUpdatedNowValue();
 
@@ -88,7 +93,7 @@ function getVerseOfTheDayFromCache(language: VerseOfTheDayLanguage): VerseOfTheD
   return verseOfTheDayCache.get(language) ?? null;
 }
 
-function storeVerseOfTheDayInCache(language: VerseOfTheDayLanguage, verseOfTheDay: VerseOfTheDay) {
+function storeVerseOfTheDayInCache(language: VerseOfTheDayLanguage, verseOfTheDay: VerseOfTheDayDto) {
   verseOfTheDayCache.set(language, verseOfTheDay);
   lastUpdatedCache.set(language, getLastUpdatedNowValue());
 }

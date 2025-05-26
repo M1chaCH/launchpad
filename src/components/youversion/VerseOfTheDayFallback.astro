@@ -1,7 +1,13 @@
 ---
+import VerseOfTheDay from "./VerseOfTheDay.astro";
+import {getLangFromUrl, initTranslations} from "../../i18n/utils";
 
+const t = initTranslations(Astro.url);
 ---
 
-<!--TODO make this a real loading thing for the finished verse of the day loader-->
-<!--Maybe only show it read one did not load for 400ms or so to avoid flickering-->
-<h2>Fallback</h2>
+<VerseOfTheDay imageUrl="/patience.webp"
+               passage="Therefore, as God’s chosen people, holy and dearly loved, clothe yourselves with compassion, kindness, humility, gentleness and patience."
+               citation="Colossians 3:12"
+               version="NIV"
+               language={getLangFromUrl(Astro.url)}
+               loading={true} />

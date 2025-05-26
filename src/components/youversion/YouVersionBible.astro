@@ -1,7 +1,7 @@
 ---
 import {getLangFromUrl, initTranslations} from "../../i18n/utils";
-import VerseOfTheDay from "./VerseOfTheDay.astro";
 import VerseOfTheDayFallback from "./VerseOfTheDayFallback.astro";
+import VerseOfTheDayYouVersion from "./VerseOfTheDayYouVersion.astro";
 
 const t = initTranslations(Astro.url);
 ---
@@ -42,7 +42,7 @@ const t = initTranslations(Astro.url);
     </div>
   </div>
   <div class="verse-of-the-day">
-    <VerseOfTheDay server:defer language={getLangFromUrl(Astro.url)}>
+    <VerseOfTheDayYouVersion server:defer language={getLangFromUrl(Astro.url)}>
       <VerseOfTheDayFallback slot="fallback"/>
     </VerseOfTheDay>
   </div>
