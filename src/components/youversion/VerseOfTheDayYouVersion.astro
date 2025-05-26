@@ -13,12 +13,10 @@ if (output.failed) {
   output.citation = "-";
   output.imageUrl = "/patience.webp";
 }
-
-await new Promise<void>(r => setTimeout(() => r(), 10000)) // TODO remove
 ---
 
-<VerseOfTheDay imageUrl={output.imageUrl} 
-               passage={output.passage} 
-               citation={output.citation} 
-               version={output.version} 
-               language={language} />
+<VerseOfTheDay imageUrl={output.imageUrl}
+               passage={output.passage}
+               citation={output.citation}
+               version={output.version}
+               language={language}/>

@@ -1,0 +1,57 @@
+---
+const {
+  videoUrl,
+  thumbnailSrc,
+  title,
+  width,
+} = Astro.props;
+
+const preparedWidth = `width: ${width ?? "auto"};`;
+---
+
+<a href={videoUrl}>
+  {title && <p>{title}</p>}
+  <img src={thumbnailSrc} alt="🎥" draggable="false" style={preparedWidth} height="auto"/>
+  <span class="material-symbols-rounded">not_started</span>
+</a>
+
+<style>
+  a {
+    display: block;
+    width: fit-content;
+    height: fit-content;
+
+    position: relative;
+  }
+
+  img {
+    object-fit: cover;
+    -webkit-user-drag: none;
+  }
+
+  p {
+    position: absolute;
+    top: 1vw;
+    left: 1vw;
+
+    display: inline-block;
+    background-color: white;
+    color: black;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.6rem;
+  }
+
+  span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 2rem;
+    color: black;
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 50%;
+  }
+</style>

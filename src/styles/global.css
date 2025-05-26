@@ -56,6 +56,11 @@ body {
   padding-top: 4rem;
 }
 
+h1 a {
+  text-decoration: none;
+  color: black;
+}
+
 h1, h2, h3 {
   margin: 0;
   font-family: 'Times', serif;
@@ -71,6 +76,11 @@ p {
   margin: 0;
   font-family: 'Funnel Sans', sans-serif;
   font-size: 0.9rem;
+}
+
+.larger-text {
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 h1 {
@@ -117,6 +127,11 @@ h5 {
 
   p {
     font-size: 1.2rem;
+  }
+
+  .larger-text {
+    font-size: 1.5rem;
+    font-weight: bold;
   }
 }
 

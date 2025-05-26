@@ -1,0 +1,62 @@
+---
+import {initTranslations} from "../i18n/utils";
+import ExternalVideo from "./framework/ExternalVideo.astro";
+import GsapCarousel from "./framework/GsapCarousel.astro";
+
+const t = initTranslations(Astro.url);
+
+const videoWidth = "clamp(200px, 80vw, 1200px)";
+---
+
+<section id="bible-project">
+  <h1><a href="https://bibleproject.com">{t("bible.project.title")}</a></h1>
+  <p>{t("bible.project.summary.books")}</p>
+  <GsapCarousel>
+    <ExternalVideo videoUrl={t("bible.project.video.new.testament")} thumbnailSrc="/nt-overview_16.9.jpg" title={t("bible.project.video.title.new.testament")} width={videoWidth}/>
+    <ExternalVideo videoUrl={t("bible.project.video.old.testament")} thumbnailSrc="/ot-tanak_16.9.jpg" title={t("bible.project.video.title.old.testament")} width={videoWidth}/>
+  </GsapCarousel>
+  <p>{t("bible.project.summary.concepts")}</p>
+  <div class="more">
+    <a class="larger-text" href="https://bibleproject.com/articles/">{t("bible.project.articles")}</a>
+    <a class="larger-text" href="https://bibleproject.com/classroom/">{t("bible.project.classes")}</a>
+  </div>
+  <GsapCarousel>
+    <ExternalVideo videoUrl={t("bible.project.video.bible")} thumbnailSrc="/what-is-the-bible_16.9.jpg" title={t("bible.project.video.title.bible")} width={videoWidth}/>
+    <ExternalVideo videoUrl={t("bible.project.video.heaven.and.earth")} thumbnailSrc="/heaven-and-earth_16.9.jpg" title={t("bible.project.video.title.heaven.and.earth")} width={videoWidth}/>
+    <ExternalVideo videoUrl={t("bible.project.video.spirit")} thumbnailSrc="/Geistwesen_Einfuehrung_Video-Thumbnail-1536x864.jpg" title={t("bible.project.video.title.spirit")} width={videoWidth}/>
+  </GsapCarousel>
+</section>
+
+<style>
+  section {
+    display: flex;
+    flex-flow: column;
+    gap: 3vh;
+    align-items: center;
+
+    padding: var(--general-padding);
+    margin-top: 60px;
+  }
+
+  p {
+    max-width: 750px;
+    text-align: justify;
+  }
+
+  .more {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+
+    width: 80vw;
+    max-width: 500px;
+  }
+
+  .more a {
+    text-decoration: none;
+    color: white;
+    background-color: #413F3C;
+    padding: 0.5rem 1rem;
+    border-radius: 0.6rem;
+  }
+</style>

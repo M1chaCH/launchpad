@@ -6,11 +6,10 @@ import VerseOfTheDayYouVersion from "./VerseOfTheDayYouVersion.astro";
 const t = initTranslations(Astro.url);
 ---
 
-<!--TODO maybe some GSAP? -->
 <section id="bible-app">
   <div class="overview">
     <div class="heading">
-      <h1>{t("bible.app.title")}</h1>
+      <h1><a href="https://www.bible.com/">{t("bible.app.title")}</a></h1>
       <p>{t("bible.app.description")}</p>
     </div>
     <div class="features-container">
@@ -44,7 +43,7 @@ const t = initTranslations(Astro.url);
   <div class="verse-of-the-day">
     <VerseOfTheDayYouVersion server:defer language={getLangFromUrl(Astro.url)}>
       <VerseOfTheDayFallback slot="fallback"/>
-    </VerseOfTheDay>
+    </VerseOfTheDayYouVersion>
   </div>
 </section>
 
@@ -52,6 +51,7 @@ const t = initTranslations(Astro.url);
   section {
     display: flex;
     flex-flow: row wrap;
+    align-content: center;
   }
 
   .overview, .verse-of-the-day {

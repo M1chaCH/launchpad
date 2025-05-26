@@ -25,7 +25,7 @@ export async function getVerseOfTheDay(language: VerseOfTheDayLanguage): Promise
     const pageData = load(pageHtml);
     const nextJsData = parseNextJsData(pageData);
 
-    const verses: string[] = nextJsData.props.pageProps.verses.map(v => v.content.replace(/\n/g, " "));
+    const verses: string[] = nextJsData.props.pageProps.verses.map((v: any) => v.content.replace(/\n/g, " "));
     const verseOfTheDay: string = verses.join(" ");
     const citation: string = nextJsData.props.pageProps.referenceTitle.title;
     const version: string = nextJsData.props.pageProps.versionData.local_abbreviation;
@@ -40,7 +40,7 @@ export async function getVerseOfTheDay(language: VerseOfTheDayLanguage): Promise
       citation,
       version,
       imageUrl: image,
-      copyrightHtml
+      copyrightHtml,
     };
 
     storeVerseOfTheDayInCache(language, result);

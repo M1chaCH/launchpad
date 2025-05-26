@@ -5,9 +5,27 @@ import {getLangFromUrl, initTranslations} from "../../i18n/utils";
 const t = initTranslations(Astro.url);
 ---
 
-<VerseOfTheDay imageUrl="/patience.webp"
-               passage="Therefore, as God’s chosen people, holy and dearly loved, clothe yourselves with compassion, kindness, humility, gentleness and patience."
-               citation="Colossians 3:12"
-               version="NIV"
-               language={getLangFromUrl(Astro.url)}
-               loading={true} />
+<div class="container">
+  <VerseOfTheDay imageUrl="/patience.webp"
+                 passage="Therefore, as God’s chosen people, holy and dearly loved, clothe yourselves with compassion, kindness, humility, gentleness and patience."
+                 citation="Colossians 3:12"
+                 version="NIV"
+                 language={getLangFromUrl(Astro.url)}
+                 loading={true}/>
+</div>
+
+<style>
+  .container {
+    opacity: 0;
+    animation: fade-in 1s 2s ease-in-out forwards;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,157 @@
+---
+---
+
+<div class="carousel-parent">
+  <div class="carousel-content-container">
+    <slot/>
+  </div>
+
+  <div class="carousel-container">
+    <button class="carousel-back-button">
+      <span class="material-symbols-rounded">arrow_back_ios</span>
+    </button>
+    <div class="carousel"></div>
+    <button class="carousel-next-button">
+      <span class="material-symbols-rounded">arrow_forward_ios</span>
+    </button>
+  </div>
+</div>
+
+
+<style is:global>
+  .carousel-content-container {
+    display: none;
+  }
+
+  .carousel-container {
+    position: relative;
+  }
+
+  .carousel-container button {
+    all: unset;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 50px;
+    cursor: pointer;
+    z-index: 999;
+  }
+
+  .carousel-container .carousel-back-button {
+    left: 0
+  }
+
+  .carousel-container .carousel-next-button {
+    right: 0
+  }
+
+  .carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    overflow-x: hidden;
+  }
+
+  .carousel > a:not(:first-child) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+</style>
+
+<script>
+  import {buildLoopingLinkedList} from "../../scripts/linked-element-list";
+  import {gsap} from "gsap";
+  import Observer from "gsap/Observer";
+
+  const parents = document.getElementsByClassName("carousel-parent");
+
+  for (let cnt of parents) {
+    runScoped(cnt);
+  }
+
+  function runScoped(parent: Element) {
+    let runningTimeline;
+
+    const carousel = parent.querySelector(".carousel") as HTMLElement;
+    const content: HTMLElement[] = [];
+    for (let child of parent.querySelector(".carousel-content-container").children) {
+      content.push(child.cloneNode(true) as HTMLElement);
+    }
+
+    let currentElement = buildLoopingLinkedList(content);
+    carousel.appendChild(currentElement.current);
+
+    const nextButton = parent.querySelector(".carousel-next-button") as HTMLElement;
+    nextButton.addEventListener("click", () => moveForward());
+    const backButton = parent.querySelector(".carousel-back-button") as HTMLElement;
+    backButton.addEventListener("click", () => moveBack());
+
+    Observer.create({
+      target: carousel,
+      type: "wheel,touch,pointer",
+      onRight: () => moveBack(),
+      onUp: () => {
+      },
+      onLeft: () => moveForward(),
+      onDown: () => {
+      },
+      tolerance: 3,
+      preventDefault: false,
+      lockAxis: true,
+    });
+
+    function moveForward() {
+      if (runningTimeline?.isActive()) {
+        return;
+      }
+
+      const nextElement = currentElement.next;
+      carousel.appendChild(nextElement.current);
+      runningTimeline = gsap.timeline({
+        paused: false,
+        defaults: {
+          duration: 1,
+          ease: "power1.inOut",
+        },
+        onComplete: () => {
+          gsap.set(currentElement.current, {xPercent: 0, opacity: 1});
+          carousel.removeChild(currentElement.current);
+          currentElement = nextElement;
+        },
+      }).from(nextElement.current, {xPercent: 100}, 0)
+        .to(currentElement.current, {xPercent: -20, opacity: 0.6}, 0);
+    }
+
+    function moveBack() {
+      if (runningTimeline?.isActive()) {
+        return;
+      }
+
+      const nextElement = currentElement.previous;
+      carousel.appendChild(nextElement.current);
+      runningTimeline = gsap.timeline({
+        paused: false,
+        defaults: {
+          duration: 1,
+          ease: "power1.inOut",
+        },
+        onComplete: () => {
+          gsap.set(currentElement.current, {xPercent: 0, opacity: 1});
+          carousel.removeChild(currentElement.current);
+          currentElement = nextElement;
+        },
+      }).from(nextElement.current, {xPercent: -100}, 0)
+        .to(currentElement.current, {xPercent: 20, opacity: 0.6}, 0);
+    }
+  }
+</script>
