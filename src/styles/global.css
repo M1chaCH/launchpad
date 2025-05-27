@@ -45,6 +45,7 @@ html {
 body {
   margin: 0 auto;
   max-width: 2000px;
+  background-color: white;
 }
 
 .content {

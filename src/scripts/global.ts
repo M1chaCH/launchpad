@@ -22,3 +22,14 @@ export function getClientGlobal<K extends keyof LaunchpadClientGlobals>(key: K):
 export function isLarge() {
   return window.innerWidth > getClientGlobal("navBreakpoint");
 }
+
+export function isDesktop() {
+  // @ts-ignore
+  if (navigator.userAgentData) {
+    // @ts-ignore
+    return !navigator.userAgentData.mobile;
+  }
+
+  const ua = navigator.userAgent.toLowerCase();
+  return !/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(ua);
+}

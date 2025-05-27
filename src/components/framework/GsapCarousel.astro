@@ -99,6 +99,7 @@
     Observer.create({
       target: carousel,
       type: "wheel,touch,pointer",
+      wheelSpeed: -1,
       onRight: () => moveBack(),
       onUp: () => {
       },
@@ -106,6 +107,7 @@
       onDown: () => {
       },
       tolerance: 3,
+      dragMinimum: 50,
       preventDefault: false,
       lockAxis: true,
     });
