@@ -1,0 +1,112 @@
+---
+const {frameUrl, initiallyHidden} = Astro.props;
+---
+
+<div class="spotify-frame-host" style={initiallyHidden ? "display: none" : ""}>
+  <div class="loading">
+    <img src="/spotify.svg" alt="spotify" width="52" height="52"/>
+    <div class="bubbles">
+      <span class="bubble"></span>
+      <span class="bubble"></span>
+      <span class="bubble"></span>
+    </div>
+  </div>
+  <iframe style="border-radius:12px"
+          src={frameUrl}
+          width="100%"
+          height="352"
+          frameBorder="0"
+          allowfullscreen=""
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy">
+  </iframe>
+</div>
+
+<style>
+  .spotify-frame-host {
+    position: relative;
+  }
+
+  .loading {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+
+    border-radius: 12px;
+    background-color: rgb(75, 131, 127);
+  }
+
+  .bubbles {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    height: 50px;
+  }
+
+  .bubble {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: white;
+  }
+</style>
+
+<script>
+  import {gsap} from "gsap";
+
+  const parents = document.getElementsByClassName("spotify-frame-host");
+  for (let element of parents) {
+    runScoped(element);
+  }
+
+  function runScoped(parent: Element) {
+    const loading = parent.querySelector(".loading");
+    const bubbles = parent.querySelectorAll(".loading .bubble");
+    const frame = parent.querySelector("iframe");
+
+    gsap.set(bubbles, {height: 10});
+    let loadingAnimation = gsap.to(bubbles, {
+      height: 30,
+      yoyo: true,
+      repeat: -1,
+      ease: "power1.inOut",
+      duration: 0.5,
+      stagger: 0.2,
+      paused: false,
+    });
+
+    let removeLoaderAnimation = gsap.timeline({
+      paused: true,
+      defaults: {
+        duration: 1,
+        ease: "power1.inOut",
+      },
+      onComplete: () => loading.remove(),
+    }).to(bubbles, {
+      height: 0,
+    }, 0)
+      .to(bubbles, {
+        width: 20,
+      }, "<0.2")
+      .to(loading, {
+        opacity: 0,
+      }, "<0.5");
+
+    frame.onload = () => {
+      loadingAnimation.pause();
+      loadingAnimation.kill();
+      removeLoaderAnimation.play();
+    };
+  }
+</script>

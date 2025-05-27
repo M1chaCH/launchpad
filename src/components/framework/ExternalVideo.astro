@@ -11,7 +11,7 @@ const preparedWidth = `width: ${width ?? "auto"};`;
 
 <a href={videoUrl}>
   {title && <p>{title}</p>}
-  <img src={thumbnailSrc} alt="🎥" draggable="false" style={preparedWidth} height="auto"/>
+  <img src={thumbnailSrc} alt="🎥" draggable="false" style={preparedWidth} height="auto" loading="lazy"/>
   <span class="material-symbols-rounded">not_started</span>
 </a>
 

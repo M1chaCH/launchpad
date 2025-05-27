@@ -1,0 +1,164 @@
+---
+import {initTranslations} from "../i18n/utils";
+import SpotifyFrame from "./framework/SpotifyFrame.astro";
+
+const t = initTranslations(Astro.url);
+---
+
+<section id="music">
+  <h1 id="music-title">{t("music.title")}</h1>
+  <p id="music-description">{t("music.description")}</p>
+  <div class="music-songs-box">
+    <!--Holy Forever - Bethel Music-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/7FufqShqWlNP606lT9iNr1?utm_source=generator"/>
+    <!--Metthew 18:20 - Aley Jean-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/2CQNa8WplamGGPnMpSlFt6?utm_source=generator"/>
+    <!--Hosanna - Christafari-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/6aBhKc5wZiR8RMgNsc00l0?utm_source=generator"/>
+    <!--Hard Fought Hallelujah - Brandon Lake-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/6ye2zG3DhdwDf6VRVyj4jx?utm_source=generator"/>
+    <!--Paradise - O'Bros-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/2gFRBzswIpnNSbmIjQvDrw?utm_source=generator"/>
+    <!--I bezüüge Jesus - Eden Music-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/7K4JUFkRfQu0m33jth4JLG?utm_source=generator" initiallyHidden={true}/>
+    <!--LEMME TELLA - planetboom-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/1Ufg2GyOi3tE7PcEEVdN0c?utm_source=generator" initiallyHidden={true}/>
+    <!--Oxygen - Gio-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/5l7n3eYehOySHFCHGevIMz?utm_source=generator" initiallyHidden={true}/>
+    <!--God's Eyes - Dax-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/2lHRuImyzXNKwzy4pau98R?utm_source=generator" initiallyHidden={true}/>
+    <!--Hero - Skillet-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/0sdeLSxygcjyMyWPhZBdFs?utm_source=generator" initiallyHidden={true}/>
+    <!--God only knows - for KING & COUNTRY-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/4ElNxglBjcrASiGn58t9Jm?utm_source=generator" initiallyHidden={true}/>
+    <!--Yahweh se manifesta-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/3VYk6DIsTXdNtjfH2KbUoO?utm_source=generator" initiallyHidden={true}/>
+    <!--Ti presencia es el Cielo - Israel & New Breed-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/0H0zjXiATRN5B70CIDcsdl?utm_source=generator" initiallyHidden={true}/>
+    <!--Living Water - Anne Wilson-->
+    <!--<SpotifyFrame frameUrl="https://open.spotify.com/embed/track/3HmKJYBqbNhhbghGudS0Fs?utm_source=generator" initiallyHidden{true}>-->
+    <!--My Church - Maren Morris-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/1LM5zQv5pBKPyO7rm7Uz6U?utm_source=generator" initiallyHidden={true}/>
+    <!--savior - Beowülf-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/track/15Br2J1kEKCNXCuDtxtfFf?utm_source=generator" initiallyHidden={true}/>
+
+    <!--Worship - Playlist-->
+    <SpotifyFrame frameUrl="https://open.spotify.com/embed/playlist/4kh5kepkkxFgrlUqFkcMfm?utm_source=generator" initiallyHidden={true}/>
+  </div>
+  <div class="music-more">
+    <span class="line"></span>
+    <button id="music-more-button">{t("music.more")}</button>
+    <span class="line"></span>
+  </div>
+</section>
+
+<style>
+  section {
+    display: flex;
+    flex-flow: column;
+    gap: 10vh;
+    align-items: center;
+
+    padding: var(--general-padding);
+    margin-top: 60px;
+  }
+
+  p {
+    max-width: 750px;
+    text-align: justify;
+  }
+
+  .music-more {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  #music-more-button {
+    all: unset;
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    box-sizing: border-box;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    border: solid 2px rgba(194, 171, 84, 0.75);
+
+  }
+
+  .music-more .line {
+    width: 100%;
+    height: 2px;
+    background-color: rgba(194, 171, 84, 0.75);
+  }
+</style>
+
+<style is:global>
+  .music-songs-box {
+    display: flex;
+    flex-flow: row wrap;
+    gap: var(--general-padding);
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+  }
+
+  .music-songs-box > div {
+    flex: 1 1 300px;
+    max-width: 500px;
+  }
+</style>
+
+<script>
+  import {gsap} from "gsap";
+  import ScrollTrigger from "gsap/ScrollTrigger";
+  import {createFadeIn} from "../scripts/global";
+
+  const songsBox = document.querySelector(".music-songs-box");
+  const songs = Array.from(songsBox.children).filter(c => c.tagName !== "SCRIPT");
+
+  const firstSongs = songs.slice(0, 5);
+  const moreSongs = songs.slice(5);
+
+  ScrollTrigger.create({
+    animation: createSongsAnimation(firstSongs),
+    trigger: ".music-songs-box",
+    start: "top 90%",
+    end: "bottom top",
+    toggleActions: "play complete resume reverse",
+  });
+
+  const moreClickedAnimation = gsap.timeline({
+    paused: true,
+    onComplete: () => document.querySelector(".music-more").remove(),
+  }).to(".music-more", {
+    yPercent: 200,
+    opacity: 0,
+    duration: 0.8,
+    ease: "power2.in",
+  }, 0)
+    .set(moreSongs, {display: "block"})
+    .add(createSongsAnimation(moreSongs).play(), "-=0.3");
+
+  const moreButton = document.getElementById("music-more-button");
+  moreButton.addEventListener("click", () => moreClickedAnimation.play());
+
+  createFadeIn("#music-title");
+  createFadeIn("#music-description");
+  createFadeIn(".music-more");
+
+  function createSongsAnimation(elements: Element[]) {
+    return gsap.from(elements, {
+      xPercent: -100,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.out",
+      stagger: 0.1,
+      paused: true,
+    });
+  }
+</script>

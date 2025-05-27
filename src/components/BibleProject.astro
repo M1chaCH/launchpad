@@ -71,8 +71,7 @@ const videoWidth = "clamp(200px, 80vw, 1200px)";
 
 <script>
   import {gsap} from "gsap";
-  import ScrollTrigger from "gsap/ScrollTrigger";
-  import {isDesktop} from "../scripts/global";
+  import {createFadeIn, isDesktop} from "../scripts/global";
 
   gsap.timeline({
     scrollTrigger: {
@@ -95,25 +94,4 @@ const videoWidth = "clamp(200px, 80vw, 1200px)";
   createFadeIn("#bible-project-more-links");
   createFadeIn("#bible-project-videos-books");
   createFadeIn("#bible-project-videos-concepts");
-
-  function createFadeIn(target: string) {
-    // blur only on desktop, mobile browsers can't really render it cleanly
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: target,
-        start: "top 90%",
-        end: "bottom top",
-        markers: false,
-        toggleActions: "play complete resume reverse",
-      },
-    }).from(target,
-      {
-        scale: 0.9,
-        filter: isDesktop() ? "blur(5px)" : "",
-        y: 100,
-        duration: 1,
-        ease: "power1.inOut",
-      },
-      0);
-  }
 </script>

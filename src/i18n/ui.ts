@@ -10,9 +10,7 @@ export const ui = {
     "loading": "Loading",
     "welcome.title": "Your Launchpad",
     "welcome.welcome": "Welcome",
-    "welcome.description": "Launchpad is a place where you can find all sorts of useful resources that help you to grow in your faith. " +
-      "Have a look around! I am sure, at least one tool will be of interest to you. " +
-      "If you feel like something is missing, feel free to reach out.",
+    "welcome.description": "Launchpad is a place where you can find all sorts of useful resources that help you to grow in your faith. Have a look around! I am sure, at least one tool will be of interest to you. If you feel like something is missing, feel free to reach out.",
     "nav.bible.app": "YouVersion Bible",
     "nav.bible.project": "BibleProject",
     "nav.music": "Music",
@@ -43,6 +41,9 @@ export const ui = {
     "bible.project.video.title.spirit": "Spiritual Beings",
     "bible.project.articles": "Articles",
     "bible.project.classes": "Classes",
+    "music.title": "Music",
+    "music.description": "Thankfully, 'church music' has really evolved and become much more modern over the last century. These days, you can connect with / worship God through music of almost any genre. We've gathered some songs here from a variety of styles, all of which are centered on our relationship with Him.",
+    "music.more": "Show more",
   },
   de: {
     "loading": "Lädt",
@@ -81,5 +82,8 @@ export const ui = {
     "bible.project.video.title.spirit": "Geistwesen",
     "bible.project.articles": "Artikel",
     "bible.project.classes": "Kurse",
+    "music.title": "Musik",
+    "music.description": "Zum Glück ist 'Kirchenmusik' in den letzten 100 Jahren viel moderner geworden. Heutzutage kann man Gott durch Musik aus jedem Genre erleben / anbeten. Hier sind einige Lieder aus verschiedenen Stilrichtungen. Alle Lieder konzentrieren sich auf unsere Beziehung zu Gott.",
+    "music.more": "Mehr anzeigen",
   },
 } as const;

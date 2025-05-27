@@ -14,7 +14,7 @@ const t = useTranslations(language);
 ---
 
 <div class="container">
-  <img src={imageUrl} alt="Verse Image…"/>
+  <img src={imageUrl} alt="Verse Image…" loading="lazy"/>
   <h2>{t("bible.app.dailyverse")} <span class={loading ? "loading" : ""}>{loading ? t("loading") : ""}</span></h2>
   <p class="passage">{passage}</p>
   <p class="citation">{citation} {version}</p>
