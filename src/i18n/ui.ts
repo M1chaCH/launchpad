@@ -1,8 +1,3 @@
-export const languages = {
-  en: "English",
-  de: "Deutsch",
-};
-
 export const defaultLanguage = "en";
 
 export const ui = {
@@ -44,6 +39,9 @@ export const ui = {
     "music.title": "Music",
     "music.description": "Thankfully, 'church music' has really evolved and become much more modern over the last century. These days, you can connect with / worship God through music of almost any genre. We've gathered some songs here from a variety of styles, all of which are centered on our relationship with Him.",
     "music.more": "Show more",
+    "chosen.title": "The Chosen",
+    "chosen.description": "The Chosen is a TV series that shows Jesus's life. This series is a seriously awesome way to get to know the culture Jesus brought into the world. It shows the struggles and backgrounds of Jesus's disciples in a really cool way, making the Gospel way more relatable. The director tries to keep the series as true to the Bible as possible, but also takes the liberty to add more details to the characters and stories of the people around Jesus. You can watch the series in a bunch of different languages.",
+    "chosen.trailer": "The Chosen - Trailer",
   },
   de: {
     "loading": "Lädt",
@@ -85,5 +83,8 @@ export const ui = {
     "music.title": "Musik",
     "music.description": "Zum Glück ist 'Kirchenmusik' in den letzten 100 Jahren viel moderner geworden. Heutzutage kann man Gott durch Musik aus jedem Genre erleben / anbeten. Hier sind einige Lieder aus verschiedenen Stilrichtungen. Alle Lieder konzentrieren sich auf unsere Beziehung zu Gott.",
     "music.more": "Mehr anzeigen",
+    "chosen.title": "The Chosen",
+    "chosen.description": "The Chosen ist eine TV-Serie, die dir das Leben von Jesus näherbringt. Die Serie ist echt eine krasse Möglichkeit, die Kultur, die Jesus mitgebracht hat, besser zu verstehen. Sie zeigt auf eine supercoole Art und Weise die Probleme und Hintergründe von Jesu Jüngern und macht das Evangelium dadurch viel greifbarer. Der Regisseur versucht, die Serie so bibeltreu wie möglich zu gestalten, nimmt sich aber die Freiheit, weitere Details zu den Charakteren und Geschichten der Leute rund um Jesus einzubauen. Die Serie kannst du in vielen verschiedenen Sprachen schauen.",
+    "chosen.trailer": "The Chosen - Trailer",
   },
 } as const;

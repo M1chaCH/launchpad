@@ -1,0 +1,191 @@
+---
+import {initTranslations} from "../i18n/utils";
+
+const t = initTranslations(Astro.url);
+---
+
+
+<section id="series">
+  <h1 id="chosen-title">{t("chosen.title")}</h1>
+  <p id="chosen-description">{t("chosen.description")}</p>
+
+  <div class="images">
+    <img src="/peter.webp" alt="peter"/>
+    <img src="/nicodemus.webp" alt="nicodemus"/>
+    <img src="/andrew.webp" alt="andrew"/>
+  </div>
+  <div id="chosen-video-container">
+    <button class="overlay">
+      <img src="/disciples.webp" alt="disciples"/>
+      <span class="trailer">{t("chosen.trailer")}</span>
+      <span class="material-symbols-rounded">not_started</span>
+    </button>
+    <div id="chosen-yt-trailer-container">
+      <div id="chosen-yt-trailer"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  section {
+    display: flex;
+    flex-flow: column;
+    gap: 10vh;
+    align-items: center;
+
+    padding: var(--general-padding);
+    margin-top: 60px;
+  }
+
+  p {
+    max-width: 750px;
+    text-align: justify;
+  }
+
+  .images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: fit-content(100%);
+    justify-items: center;
+    gap: 2vw;
+
+    width: 100%;
+    box-sizing: border-box;
+
+    max-width: 1200px;
+  }
+
+  .images img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+
+    aspect-ratio: 9 / 12;
+  }
+
+  #chosen-video-container {
+    width: 100%;
+    max-width: 1200px;
+
+    position: relative;
+  }
+
+  #chosen-video-container #chosen-yt-trailer-container {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  #chosen-video-container .overlay {
+    all: unset;
+
+    display: block;
+    cursor: pointer;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+  }
+
+  #chosen-video-container .overlay img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.75) saturate(0.75);
+  }
+
+  #chosen-video-container .overlay .trailer {
+    position: absolute;
+    bottom: 1vw;
+    right: 1vw;
+
+    display: inline-block;
+    background-color: white;
+    color: black;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.6rem;
+  }
+
+  #chosen-video-container .overlay .material-symbols-rounded {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    font-size: 2rem;
+    color: black;
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 50%;
+  }
+</style>
+
+<script>
+  import {gsap} from "gsap";
+  import YouTubePlayer from "youtube-player";
+  import {createFadeIn} from "../scripts/global";
+  import ScrollTrigger from "gsap/ScrollTrigger";
+
+  createFadeIn("#chosen-title");
+  createFadeIn("#chosen-description");
+  createFadeIn(".images img");
+  createFadeIn("#chosen-video-container");
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: "#series",
+      start: "top 60%",
+      end: "bottom 60%",
+      toggleActions: "play reverse play reverse",
+      invalidateOnRefresh: true,
+      defaults: {
+        ease: "linear",
+        duration: 1,
+      },
+    },
+  }).to("body", {backgroundColor: "#000000"}, 0)
+    .to("nav", {backgroundColor: "#000000"}, 0)
+    .to("a", {color: "#FFFFFF"}, 0)
+    .to("#burger-icon", {fill: "#FFFFFF"}, 0)
+    .to("html", {color: "#FFFFFF"}, 0);
+
+  const moreMusicButton = document.getElementById("music-more-button");
+  moreMusicButton.addEventListener("click", () => setTimeout(() => ScrollTrigger.refresh(), 1000));
+
+  const playAnimation = gsap.timeline({
+    paused: true,
+    defaults: {
+      duration: 1,
+      ease: "power1.inOut",
+    },
+    onComplete: () => document.querySelector("#chosen-video-container .overlay").remove(),
+  }).to("#chosen-video-container .overlay .material-symbols-rounded", {
+    scale: 1.2,
+    ease: "bounce",
+    duration: 0.5,
+  }, 0)
+    .to("#chosen-video-container .overlay", {
+      opacity: 0,
+    }, "-=0.25")
+    .from("#chosen-video-container iframe", {
+      opacity: 0,
+    }, "<");
+
+  const trailerPlayButton = document.querySelector("#chosen-video-container .overlay");
+  trailerPlayButton.addEventListener("click", () => playAnimation.play());
+
+  let player = YouTubePlayer("chosen-yt-trailer", {
+    videoId: "K1-FoFj8Jbo",
+    width: "100%",
+    height: "100%",
+    playerVars: {
+      autoplay: 0,
+      controls: 1,
+    },
+  });
+  trailerPlayButton.addEventListener("click", async () => await player.playVideo());
+</script>

@@ -35,6 +35,12 @@ export function isDesktop() {
 
 export function createFadeIn(targetSelector: string) {
   // blur only on desktop, mobile browsers can't really render it cleanly
+  gsap.set(targetSelector, {
+    scale: 0.9,
+    filter: isDesktop() ? "blur(5px)" : "",
+    y: 100,
+  });
+
   gsap.timeline({
     scrollTrigger: {
       trigger: targetSelector,
@@ -42,13 +48,15 @@ export function createFadeIn(targetSelector: string) {
       end: "bottom top",
       markers: false,
       toggleActions: "play complete resume reverse",
+      invalidateOnRefresh: true,
     },
-  }).from(targetSelector,
+  }).to(targetSelector,
     {
-      scale: 0.9,
-      filter: isDesktop() ? "blur(5px)" : "",
-      y: 100,
+      scale: 1,
+      filter: isDesktop() ? "blur(0px)" : "",
+      y: 0,
       duration: 1,
+      stagger: 0.2,
       ease: "power1.inOut",
     },
     0);

@@ -7,6 +7,7 @@ import Navigation from "../../components/nav/Navigation.astro";
 import YouVersionBible from "../../components/youversion/YouVersionBible.astro";
 import BibleProject from "../../components/BibleProject.astro";
 import Music from "../../components/Music.astro";
+import Chosen from "../../components/Chosen.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -68,6 +69,7 @@ export async function getStaticPaths() {
     <YouVersionBible/>
     <BibleProject/>
     <Music/>
+    <Chosen/>
   </div>
 </main>
 <Footer/>
