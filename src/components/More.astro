@@ -1,0 +1,77 @@
+---
+import {initTranslations} from "../i18n/utils";
+const t = initTranslations(Astro.url);
+---
+
+<section id="more">
+  <h1 id="more-title">{t("more.title")}</h1>
+  <p id="more-description">{t("more.description")}</p>
+  <div id="more-tools-container">
+    <a class="larger-text" href="https://www.csv-bibel.de/start">
+      <span>CSV Bibel</span>
+      <img src="/csv-bibel.webp" alt="logo"/>
+    </a>
+    <a class="larger-text" href="https://www.blueletterbible.org/">
+      <span>Blue Letter Bible</span>
+      <img src="/BlueLetterBible.webp" alt="logo"/>
+    </a>
+    <a class="larger-text" href="https://biblehub.com/">
+      <span>Bible Hub</span>
+      <img src="/BibleHub.webp" alt="logo"/>
+    </a>
+  </div>
+  <p id="more-tools-description">{t("more.tools.description")}</p>
+</section>
+
+<style>
+  section {
+    display: flex;
+    flex-flow: column;
+    gap: 10vh;
+    align-items: center;
+
+    padding: var(--general-padding);
+    margin-top: 60px;
+  }
+
+  p {
+    max-width: 750px;
+    text-align: justify;
+  }
+
+  #more-tools-container {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 10vw;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #more-tools-container a {
+    text-decoration: none;
+    color: black;
+
+    flex: 1 1 300px;
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+  }
+
+  #more-tools-container a img {
+    width: 100%;
+    height: auto;
+  }
+</style>
+
+<script>
+  import {createFadeIn} from "../scripts/global";
+
+  createFadeIn("#more-title");
+  createFadeIn("#more-description");
+  createFadeIn("#more-tools-description");
+  createFadeIn("#more-tools-container a");
+</script>
