@@ -30,14 +30,14 @@ const t = initTranslations(Astro.url);
         <span>🎧</span>
         <p>{t("bible.app.bullets.audio")}</p>
       </div>
-    </div>
-    <div class="visits">
-      <a href="https://apps.apple.com/us/app/bible/id282935706" target="_blank">
-        <img src="/app-store-badge-en.png" alt="AppStore Download"/>
-      </a>
-      <a href="https://play.google.com/store/apps/details?id=com.sirma.mobile.bible.android" target="_blank">
-        <img src="/play-store-badge-en.png" alt="PlayStore Download"/>
-      </a>
+      <div class="visits">
+        <a href="https://apps.apple.com/us/app/bible/id282935706" target="_blank">
+          <img src="/app-store-badge-en.png" alt="AppStore Download"/>
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.sirma.mobile.bible.android" target="_blank">
+          <img src="/play-store-badge-en.png" alt="PlayStore Download"/>
+        </a>
+      </div>
     </div>
   </div>
   <div class="verse-of-the-day">
@@ -50,22 +50,31 @@ const t = initTranslations(Astro.url);
 <style>
   section {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column;
     align-content: center;
-  }
-
-  .overview, .verse-of-the-day {
-    align-self: flex-start;
-    flex: 1 1 600px;
-
-    box-sizing: border-box;
     padding: var(--general-padding);
   }
 
-  .heading p {
-    max-width: 520px;
-    text-align: justify;
+  .overview {
+    display: flex;
+    flex-flow: row wrap;
+    min-height: 100vh;
+    gap: 5vw;
+    align-items: center;
+  }
 
+  .heading, .features-container {
+    flex: 1 1 600px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+  }
+
+  .heading p {
+    max-width: 750px;
+    text-align: justify;
     margin: 3rem 0 4rem 0;
   }
 
@@ -110,3 +119,11 @@ const t = initTranslations(Astro.url);
     object-fit: contain;
   }
 </style>
+
+<script>
+
+  import {createFadeIn} from "../../scripts/global";
+
+  createFadeIn(".heading");
+  createFadeIn(".features-container");
+</script>

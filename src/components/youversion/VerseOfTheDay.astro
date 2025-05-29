@@ -15,21 +15,31 @@ const t = useTranslations(language);
 
 <div class="container">
   <img src={imageUrl} alt="Verse Image…" loading="lazy"/>
-  <h2>{t("bible.app.dailyverse")} <span class={loading ? "loading" : ""}>{loading ? t("loading") : ""}</span></h2>
-  <p class="passage">{passage}</p>
-  <p class="citation">{citation} {version}</p>
+  <div class="verse-of-the-day-text">
+    <h2>{t("bible.app.dailyverse")} <span class={loading ? "loading" : ""}>{loading ? t("loading") : ""}</span></h2>
+    <p class="passage">{passage}</p>
+    <p class="citation">{citation} {version}</p>
+  </div>
 </div>
 
 <style>
   .container {
     display: flex;
-    flex-flow: column;
-    justify-content: center;
-    gap: 0.5rem;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 5vw;
 
     container: verse-of-the-day / inline-size;
-
     --fly-in-duration: 420ms;
+  }
+
+  .container img, .container .verse-of-the-day-text {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
   }
 
   img {
@@ -51,6 +61,7 @@ const t = useTranslations(language);
     align-items: center;
     gap: 1rem;
 
+    width: 100%;;
     opacity: 0;
     transform: translateY(200px);
     animation: fly-up var(--fly-in-duration) 100ms ease-out forwards;
@@ -72,6 +83,7 @@ const t = useTranslations(language);
 
   .passage {
     text-align: justify;
+    max-width: 500px;
 
     opacity: 0;
     transform: translateY(200px);
@@ -80,6 +92,7 @@ const t = useTranslations(language);
 
   .citation {
     font-weight: bold;
+    width: 100%;;
 
     opacity: 0;
     transform: translateY(200px);
