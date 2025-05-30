@@ -6,7 +6,9 @@ const t = initTranslations(Astro.url);
 
 
 <section id="series">
-  <h1 id="chosen-title">{t("chosen.title")}</h1>
+  <a href="https://watch.thechosen.tv/">
+    <h1 id="chosen-title">{t("chosen.title")}</h1>
+  </a>
   <p id="chosen-description">{t("chosen.description")}</p>
 
   <div class="images">
@@ -35,6 +37,11 @@ const t = initTranslations(Astro.url);
 
     padding: var(--general-padding);
     margin-top: 60px;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
   }
 
   p {

@@ -11,27 +11,23 @@ const videoWidth = "clamp(200px, 80vw, 1200px)";
 <section id="bible-project">
   <h1 id="bible-project-title"><a href="https://bibleproject.com">{t("bible.project.title")}</a></h1>
   <p id="bible-project-summary-books">{t("bible.project.summary.books")}</p>
-  <div class="bible-project-videos-container">
-    <div id="bible-project-videos-books">
-      <GsapCarousel>
-        <ExternalVideo videoUrl={t("bible.project.video.new.testament")} thumbnailSrc="/nt-overview_16.9.jpg" title={t("bible.project.video.title.new.testament")} width={videoWidth}/>
-        <ExternalVideo videoUrl={t("bible.project.video.old.testament")} thumbnailSrc="/ot-tanak_16.9.jpg" title={t("bible.project.video.title.old.testament")} width={videoWidth}/>
-      </GsapCarousel>
-    </div>
+  <div id="bible-project-videos-books">
+    <GsapCarousel>
+      <ExternalVideo videoUrl={t("bible.project.video.new.testament")} thumbnailSrc="/nt-overview_16.9.jpg" title={t("bible.project.video.title.new.testament")} width={videoWidth}/>
+      <ExternalVideo videoUrl={t("bible.project.video.old.testament")} thumbnailSrc="/ot-tanak_16.9.jpg" title={t("bible.project.video.title.old.testament")} width={videoWidth}/>
+    </GsapCarousel>
   </div>
   <p id="bible-project-summary-concepts">{t("bible.project.summary.concepts")}</p>
   <div class="more" id="bible-project-more-links">
     <a class="larger-text" href="https://bibleproject.com/articles/">{t("bible.project.articles")}</a>
     <a class="larger-text" href="https://bibleproject.com/classroom/">{t("bible.project.classes")}</a>
   </div>
-  <div class=".bible-project-videos-container">
-    <div id="bible-project-videos-concepts">
-      <GsapCarousel>
-        <ExternalVideo videoUrl={t("bible.project.video.bible")} thumbnailSrc="/what-is-the-bible_16.9.jpg" title={t("bible.project.video.title.bible")} width={videoWidth}/>
-        <ExternalVideo videoUrl={t("bible.project.video.heaven.and.earth")} thumbnailSrc="/heaven-and-earth_16.9.jpg" title={t("bible.project.video.title.heaven.and.earth")} width={videoWidth}/>
-        <ExternalVideo videoUrl={t("bible.project.video.spirit")} thumbnailSrc="/Geistwesen_Einfuehrung_Video-Thumbnail-1536x864.jpg" title={t("bible.project.video.title.spirit")} width={videoWidth}/>
-      </GsapCarousel>
-    </div>
+  <div id="bible-project-videos-concepts">
+    <GsapCarousel>
+      <ExternalVideo videoUrl={t("bible.project.video.bible")} thumbnailSrc="/what-is-the-bible_16.9.jpg" title={t("bible.project.video.title.bible")} width={videoWidth}/>
+      <ExternalVideo videoUrl={t("bible.project.video.heaven.and.earth")} thumbnailSrc="/heaven-and-earth_16.9.jpg" title={t("bible.project.video.title.heaven.and.earth")} width={videoWidth}/>
+      <ExternalVideo videoUrl={t("bible.project.video.spirit")} thumbnailSrc="/Geistwesen_Einfuehrung_Video-Thumbnail-1536x864.jpg" title={t("bible.project.video.title.spirit")} width={videoWidth}/>
+    </GsapCarousel>
   </div>
 </section>
 
@@ -67,31 +63,35 @@ const videoWidth = "clamp(200px, 80vw, 1200px)";
     padding: 0.5rem 1rem;
     border-radius: 0.6rem;
   }
+
+  #bible-project-videos-books, #bible-project-videos-concepts {
+    box-shadow: 0 15px 20px 0 rgba(0, 0, 0, 0.15);
+  }
 </style>
 
 <script>
   import {gsap} from "gsap";
-  import {createFadeIn, isDesktop} from "../scripts/global";
+    import {createFadeIn, isDesktop} from "../scripts/global";
 
-  gsap.timeline({
-    scrollTrigger: {
-      trigger: "#bible-project",
-      start: "top 40%",
-      end: "bottom 60%",
-      markers: false,
-      toggleActions: "play reverse play reverse",
-      defaults: {
-        ease: "linear",
-        duration: 1,
-      },
-    },
-  }).to("body", {backgroundColor: "#85E4FF"}, 0)
-    .to("nav", {backgroundColor: "#85E4FF"}, 0);
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: "#bible-project",
+        start: "top 40%",
+        end: "bottom 60%",
+        markers: false,
+        toggleActions: "play reverse play reverse",
+        defaults: {
+          ease: "linear",
+          duration: 1,
+          },
+        },
+      }).to("body", {backgroundColor: "#85E4FF"}, 0)
+      .to("nav", {backgroundColor: "#85E4FF"}, 0);
 
-  createFadeIn("#bible-project-title");
-  createFadeIn("#bible-project-summary-books");
-  createFadeIn("#bible-project-summary-concepts");
-  createFadeIn("#bible-project-more-links");
-  createFadeIn("#bible-project-videos-books");
-  createFadeIn("#bible-project-videos-concepts");
+    createFadeIn("#bible-project-title");
+    createFadeIn("#bible-project-summary-books");
+    createFadeIn("#bible-project-summary-concepts");
+    createFadeIn("#bible-project-more-links");
+    createFadeIn("#bible-project-videos-books");
+    createFadeIn("#bible-project-videos-concepts");
 </script>

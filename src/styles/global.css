@@ -33,7 +33,7 @@
 
 html {
   font-family: 'Funnel Sans', sans-serif;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 
   --video-frame-size: max(10px, 2vw);
 

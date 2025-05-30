@@ -14,7 +14,12 @@ const t = initTranslations(Astro.url);
     <textarea id="contact-message" type="email" placeholder={t("footer.message")}/>
     <div class="controls">
       <span id="contact-char-count">0 / (50 - 1500)</span>
-      <button type="submit" disabled>{t("footer.send")}</button>
+      <button type="submit" disabled>
+        <span id="contact-form-text">{t("footer.send")}</span>
+        <span id="contact-form-loading" class="material-symbols-rounded">sync</span>
+        <span id="contact-form-failed" class="material-symbols-rounded">error</span>
+        <span id="contact-form-sent" class="material-symbols-rounded">send</span>
+      </button>
     </div>
   </form>
   <div class="languages">
@@ -79,6 +84,11 @@ const t = initTranslations(Astro.url);
     outline: 2px solid black;
   }
 
+  form textarea {
+    min-width: 200px;
+    min-height: 80px;
+  }
+
   form .controls {
     display: flex;
     flex-flow: row nowrap;
@@ -89,6 +99,7 @@ const t = initTranslations(Astro.url);
   form button {
     all: unset;
     cursor: pointer;
+    position: relative;
 
     font-size: 1.2rem;
     background-color: white;
@@ -105,11 +116,31 @@ const t = initTranslations(Astro.url);
     cursor: not-allowed;
     opacity: 0.5;
   }
+
+  #contact-form-loading, #contact-form-failed, #contact-form-sent {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+
+    opacity: 0;
+  }
+
+  #contact-form-failed, #contact-form-sent {
+    scale: 0.8;
+  }
 </style>
 
 <script>
   import {gsap} from "gsap";
   import {createFadeIn} from "../scripts/global";
+  import Animation = gsap.core.Animation;
+  import {load} from "cheerio";
 
   createFadeIn("footer");
 
@@ -148,6 +179,7 @@ const t = initTranslations(Astro.url);
   }
 
   async function sendMessage() {
+    const l = showLoading();
     try {
       const response = await fetch("https://host.michu-tech.com/backend/open/contact", {
         method: "POST",
@@ -160,7 +192,139 @@ const t = initTranslations(Astro.url);
           message: messageInput.value,
         }),
       });
+
+      if (response.status === 200) {
+        loadingToSuccess(l);
+      } else {
+        console.error(response);
+        loadingToFailed(l);
+      }
     } catch (e) {
+      console.error(e);
+      loadingToFailed(l);
     }
+  }
+
+  function showLoading() {
+    sendButton.setAttribute("disabled", "true");
+
+    return gsap.timeline({
+      paused: false,
+    }).to("#contact-form-loading", {
+      opacity: 1,
+      duration: 0.3,
+      ease: "power1.out",
+    }, 0)
+      .to("#contact-form-text", {
+        opacity: 0,
+        duration: 0.3,
+        ease: "power1.out",
+      }, 0)
+      .to("#contact-form-loading", {
+        rotate: -360,
+        duration: 0.75,
+        ease: "linear",
+        repeat: -1,
+      }, "-=0.2");
+  }
+
+  function loadingToFailed(loadingAnimation: Animation) {
+    const failedAnimation = gsap.timeline({
+      paused: false,
+      onComplete: () => sendButton.removeAttribute("disabled"),
+      onStart: () => {
+        loadingAnimation.pause();
+      },
+    }).to("#contact-form-loading", {
+      opacity: 0,
+      duration: 0.3,
+      ease: "power1.out",
+    }, 0)
+      .to("#contact-form-failed", {
+        opacity: 1,
+        scale: 1,
+        duration: 0.3,
+        ease: "bounce",
+      }, "-=0.1")
+      .to("form button", {
+        backgroundColor: "rgba(255, 0, 0, 1)",
+        duration: 0.3,
+        ease: "power1.out",
+      }, "<")
+      .to("#contact-form-failed", {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.3,
+        ease: "power1.in",
+      }, "+=5")
+      .to("form button", {
+        backgroundColor: "white",
+        duration: 0.3,
+        ease: "power1.in",
+      }, "<")
+      .to("#contact-form-text", {
+        opacity: 1,
+        duration: 0.3,
+        ease: "power1.in",
+      }, "<");
+
+    setTimeout(() => {
+      failedAnimation.time(0).kill();
+      loadingAnimation.time(0).kill();
+    }, 6000);
+  }
+
+  function loadingToSuccess(loadingAnimation: Animation) {
+    const successAnimation = gsap.timeline({
+      paused: false,
+      onComplete: () => {
+        sendButton.removeAttribute("disabled");
+      },
+      onStart: () => {
+        loadingAnimation.pause();
+      },
+    }).to("#contact-form-loading", {
+      opacity: 0,
+      duration: 0.3,
+      ease: "power1.out",
+    }, 0)
+      .to("#contact-form-sent", {
+        opacity: 1,
+        scale: 1,
+        duration: 0.3,
+        ease: "bounce",
+      }, "-=0.1")
+      .to("form button", {
+        backgroundColor: "rgba(229, 217, 199, 1)",
+        duration: 0.3,
+        ease: "power1.out",
+      }, "<")
+      .to("#contact-form-sent", {
+        x: 50,
+        scale: 0.8,
+        duration: 0.5,
+        ease: "power2.in",
+      }, "+=1")
+      .to("form button", {
+        backgroundColor: "white",
+        duration: 0.3,
+        ease: "power1.in",
+      }, "<")
+      .to("#contact-form-text", {
+        opacity: 1,
+        duration: 0.3,
+        ease: "power1.in",
+      }, "<")
+      .to("#contact-form-sent", {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.2,
+        ease: "power1.in",
+      }, "-=0.2");
+
+    setTimeout(() => {
+      successAnimation.time(0).kill();
+      loadingAnimation.time(0).kill();
+    }, 2100);
   }
 </script>
