@@ -149,7 +149,7 @@ const t = initTranslations(Astro.url);
   const emailInput = document.getElementById("contact-mail") as HTMLInputElement;
   const messageInput = document.getElementById("contact-message") as HTMLInputElement;
 
-  emailInput.addEventListener("input", (e) => updateButtonDisabled());
+  emailInput.addEventListener("input", () => updateButtonDisabled());
 
   messageInput.addEventListener("input", (e) => {
     const count = (e.target as HTMLInputElement).value.length;
@@ -175,7 +175,7 @@ const t = initTranslations(Astro.url);
   function isFormValid() {
     const messageCount = messageInput.value.length;
     const mail = emailInput.value;
-    return messageCount > 50 && messageCount < 1500 && mail.length > 4 && mail.includes("@") && mail.includes(".");
+    return messageCount >= 50 && messageCount <= 1500 && mail.length > 4 && mail.includes("@") && mail.includes(".");
   }
 
   async function sendMessage() {
