@@ -208,7 +208,7 @@ const t = initTranslations(Astro.url);
         }),
       });
 
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status < 300) {
         loadingToSuccess(l);
       } else {
         console.error(response);
